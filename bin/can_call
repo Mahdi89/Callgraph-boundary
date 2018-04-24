@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo Can-Call v1.0!
+
+clang -S -emit-llvm $1 -o - | opt -analyze -dot-callgraph
