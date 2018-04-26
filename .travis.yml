@@ -1,0 +1,10 @@
+language: go
+
+go:
+  - 1.9
+
+
+install:
+
+script:
+  - cd test/ && make test
