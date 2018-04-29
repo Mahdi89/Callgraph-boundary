@@ -61,8 +61,49 @@ func Parse(file string) (*list.List, *list.List)  {
 	return l,l_
 }
 
+func Search(l *list.List, caller string, callee string) bool {
 
-func main() {
+
+	tf := make(chan bool, 2)
+	go func() {
+		for e := l.Front(); e != nil; e = e.Next() {
+			if e.Value.(Node).name == caller {
+				tf <- true
+				break
+			}
+		}
+		tf <- false
+	}()
+
+	go func() {
+		for e := l.Front(); e != nil; e = e.Next() {
+			if e.Value.(Node).name == callee {
+				tf <- true
+				break
+			}
+		}
+		tf <- false
+	}()
+
+	for e := l.Front(); e != nil; e = e.Next() {
+		if e.Value.(Node).name == caller {
+			nxt := e.Value.(Node).next
+			nm := nxt.name
+			fmt.Println(nm)
+			if nm == callee {
+				return true
+			} else {
+				if Search(l, nm, callee) { 
+					return true
+				} else  {continue}
+			}
+		}
+	}
+	return false
+}
+
+
+func main(){
 
 	file := "./callgraph.dot"
 
@@ -76,16 +117,7 @@ func main() {
 	scanstd.Scan()
 	callee := scanstd.Text()
 
-	fmt.Println(caller, callee)
-
-	for e := l_.Front(); e != nil; e = e.Next() {
-		// do something with e.Value
-		fmt.Println(e.Value.(Node_).name)
-	}
-
-	for e := l.Front(); e != nil; e = e.Next() {
-		// do something with e.Value
-		fmt.Println(e.Value.(Node).name)
-	}
+	// TODO use l_ to map caller/callee to actual names
+	fmt.Println(l_, Search(l, caller, callee))
 
 }
