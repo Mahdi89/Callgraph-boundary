@@ -3,3 +3,4 @@
 echo Can-Call v1.0!
 
 clang -S -emit-llvm $1 -o - | opt -analyze -dot-callgraph
+sed 's/shape=record,//g;s/label="{//g;s/;$//;s/}"//;s/ node//;s/[]]//g;s/[[]//g' -i callgraph.dot
