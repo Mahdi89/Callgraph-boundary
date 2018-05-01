@@ -13,7 +13,7 @@ build: clean
 	cd ./bin/ && go build ../src/parser.go
 
 run: build
-	cd ./bin/ && sh can_call ./test/nested.c main buzz
+	cd ./bin/ && sh can_call ../test/nested.c main buzz
 
 clean: 
 	rm -rf callgraph.dot
