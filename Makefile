@@ -16,4 +16,5 @@ run: build
 	can_call ./test/nested.c main buzz
 
 clean: 
-	cd ./bin/ && rm callgraph.dot
+	rm -rf callgraph.dot
+	rm -rf ./bin/parser
