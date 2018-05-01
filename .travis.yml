@@ -7,4 +7,6 @@ go:
 install:
 
 script:
-  - make clean && make run
+  - make clean
+  - make test
+  - make run

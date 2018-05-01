@@ -6,10 +6,9 @@ DESC := A clang AST analysis tool
 test: test_parser
 
 test_parser:
-	@( go test ./ )
+	cd ./src/ && go test
 
-build: clean 
-	$(shell export PATH=$PATH:$PWD)
+build:  
 	cd ./bin/ && go build ../src/parser.go
 
 run: build
