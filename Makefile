@@ -8,12 +8,12 @@ test: test_parser
 test_parser:
 	@( go test ./ )
 
-build: 
+build: clean 
 	$(shell export PATH=$PATH:$PWD)
 	cd ./bin/ && go build ../src/parser.go
 
 run: build
-	can_call ./test/nested.c main buzz
+	cd ./bin/ && sh can_call ./test/nested.c main buzz
 
 clean: 
 	rm -rf callgraph.dot
