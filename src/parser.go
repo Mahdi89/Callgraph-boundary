@@ -27,6 +27,22 @@ type Node_ struct {
 	id   string
 }
 
+func Map(l_ *list.List, caller string, callee string) (string, string){
+
+	var caller_id, callee_id string
+
+	for e := l_.Front(); e != nil; e = e.Next() {
+		if (e.Value.(Node_).name == caller) {
+			caller_id = e.Value.(Node_).id
+		}
+		if (e.Value.(Node_).name == callee) {
+			callee_id = e.Value.(Node_).id
+		}
+	}
+
+	return caller_id, callee_id
+}
+
 func Parse(file string) (*list.List, *list.List)  {
 
 	f, err := os.Open(file)
@@ -89,7 +105,6 @@ func Search(l *list.List, caller string, callee string) bool {
 		if e.Value.(Node).name == caller {
 			nxt := e.Value.(Node).next
 			nm := nxt.name
-			fmt.Println(nm)
 			if nm == callee {
 				return true
 			} else {
@@ -114,7 +129,10 @@ func main(){
 	caller := args[0]
 	callee := args[1]
 
+	// Map names to ids
+	caller,callee = Map(l_, caller, callee)
+
 	// TODO use l_ to map caller/callee to actual names
-	fmt.Println(l_, Search(l, caller, callee))
+	fmt.Println(Search(l, caller, callee))
 
 }
