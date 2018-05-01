@@ -110,12 +110,9 @@ func main(){
 	// Parse the input file
 	l,l_ := Parse(file)
 
-	// Get Caller and Callee nodes
-	scanstd := bufio.NewScanner(os.Stdin)
-	scanstd.Scan()
-	caller := scanstd.Text()
-	scanstd.Scan()
-	callee := scanstd.Text()
+	args := os.Args[1:]
+	caller := args[0]
+	callee := args[1]
 
 	// TODO use l_ to map caller/callee to actual names
 	fmt.Println(l_, Search(l, caller, callee))
