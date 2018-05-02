@@ -8,6 +8,9 @@ test: test_parser
 test_parser:
 	cd ./src/ && go test
 
+bench: 
+	cd ./src/ && go test -bench=.
+
 build:  
 	cd ./bin/ && go build ../src/parser.go
 
