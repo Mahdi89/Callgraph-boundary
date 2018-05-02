@@ -27,15 +27,15 @@ type Node_ struct {
 	id   string
 }
 
-func Map(l_ *list.List, caller string, callee string) (string, string){
+func Map(l_ *list.List, caller string, callee string) (string, string) {
 
 	var caller_id, callee_id string
 
 	for e := l_.Front(); e != nil; e = e.Next() {
-		if (e.Value.(Node_).name == caller) {
+		if e.Value.(Node_).name == caller {
 			caller_id = e.Value.(Node_).id
 		}
-		if (e.Value.(Node_).name == callee) {
+		if e.Value.(Node_).name == callee {
 			callee_id = e.Value.(Node_).id
 		}
 	}
@@ -43,7 +43,7 @@ func Map(l_ *list.List, caller string, callee string) (string, string){
 	return caller_id, callee_id
 }
 
-func Parse(file string) (*list.List, *list.List)  {
+func Parse(file string) (*list.List, *list.List) {
 
 	f, err := os.Open(file)
 	check(err)
@@ -68,38 +68,26 @@ func Parse(file string) (*list.List, *list.List)  {
 				e2 := Node{str, &e1}
 				l.PushBack(e2)
 
-			}else {
+			} else {
 				e1 := Node_{nxt, str}
 				l_.PushBack(e1)
 			}
 		}
 	}
-	return l,l_
+	return l, l_
+}
+
+func Exist(l *list.List, call string) bool {
+
+	for e := l.Front(); e != nil; e = e.Next() {
+		if e.Value.(Node_).id == call {
+			return true
+		}
+	}
+	return false
 }
 
 func Search(l *list.List, caller string, callee string) bool {
-
-
-	tf := make(chan bool, 2)
-	go func() {
-		for e := l.Front(); e != nil; e = e.Next() {
-			if e.Value.(Node).name == caller {
-				tf <- true
-				break
-			}
-		}
-		tf <- false
-	}()
-
-	go func() {
-		for e := l.Front(); e != nil; e = e.Next() {
-			if e.Value.(Node).name == callee {
-				tf <- true
-				break
-			}
-		}
-		tf <- false
-	}()
 
 	for e := l.Front(); e != nil; e = e.Next() {
 		if e.Value.(Node).name == caller {
@@ -108,31 +96,36 @@ func Search(l *list.List, caller string, callee string) bool {
 			if nm == callee {
 				return true
 			} else {
-				if Search(l, nm, callee) { 
+				if Search(l, nm, callee) {
 					return true
-				} else  {continue}
+				} else {
+					continue
+				}
 			}
 		}
 	}
 	return false
 }
 
-
-func main(){
+func main() {
 
 	file := "./callgraph.dot"
 
 	// Parse the input file
-	l,l_ := Parse(file)
+	l, l_ := Parse(file)
 
 	args := os.Args[1:]
 	caller := args[0]
 	callee := args[1]
 
 	// Map names to ids
-	caller,callee = Map(l_, caller, callee)
+	caller, callee = Map(l_, caller, callee)
 
-	// TODO use l_ to map caller/callee to actual names
-	fmt.Println(Search(l, caller, callee))
+	if Exist(l_, caller) && Exist(l_, callee) {
+		// TODO use l_ to map caller/callee to actual names
+		fmt.Println(Search(l, caller, callee))
+	} else {
+		fmt.Println("Please check: Callee/Caller or both dosn't exist!")
+	}
 
 }
