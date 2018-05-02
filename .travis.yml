@@ -10,3 +10,4 @@ script:
   - make clean
   - make test
   - make run
+  - make bench
