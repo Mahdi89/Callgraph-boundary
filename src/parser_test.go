@@ -2,7 +2,6 @@ package main
 
 import (
 	"testing"
-	"container/list"
 )
 
 func TestParser(t *testing.T) {
@@ -18,9 +17,13 @@ func BenchmarkParser(b *testing.B) {
 func BenchmarkSearch(b *testing.B) {
 	// run the function b.N times
 
-	caller := "main"
-	callee := "buzz"
-	l := list.New()
+        file := "./callgraph.dot"
+
+        // Parse the input file
+        l,l_ := Parse(file)
+        // Map names to ids
+        caller,callee := Map(l_, "main", "buzz")
+
 	for n := 0; n < b.N; n++ {
 		Search(l, caller, callee)
 	}

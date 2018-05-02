@@ -8,7 +8,8 @@ test: test_parser
 test_parser:
 	cd ./src/ && go test
 
-bench: 
+bench: run
+	cp ./bin/*.dot ./src/
 	cd ./src/ && go test -bench=.
 
 build:  
