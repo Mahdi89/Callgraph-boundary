@@ -7,8 +7,22 @@ Provides the maybe-can-call tool. It checks whether there is a path between the 
 
 ## Requirements
 
+- llvm >v5.0.0
+- clang >v3.8.0
+- llvm optimizer (opt)
+- go >1.8
+
 ## Build and Install
 
-## Test
+`make build`
 
-## Notes 
+and 
+
+`make run`
+
+## Test and Benchmarking
+
+`make test`
+`make bench`
+
+## Notes
