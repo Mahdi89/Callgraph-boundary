@@ -1,6 +1,15 @@
-void baz() { }
+void baz();
 
 void foo() { }
+
+void bar() {
+  foo();
+  baz();
+}
+
+void baz() {
+   if(0) { bar();}
+}
 
 void bizz() { }
 
@@ -13,4 +22,3 @@ int main() {
   baz();
   buzz();
 }
-
