@@ -87,7 +87,7 @@ func Existby(l *list.List, call string, id_name bool) bool {
 			}
 		}
 		return false
-	}else {
+	} else {
 		for e := l.Front(); e != nil; e = e.Next() {
 			if e.Value.(Node).name == call {
 				return true
@@ -97,7 +97,6 @@ func Existby(l *list.List, call string, id_name bool) bool {
 	}
 }
 
-
 func Search(l *list.List, visited *list.List, caller string, callee string) bool {
 
 	for e := l.Front(); e != nil; e = e.Next() {
@@ -105,9 +104,9 @@ func Search(l *list.List, visited *list.List, caller string, callee string) bool
 			nxt := e.Value.(Node).next
 			visited.PushBack(e.Value.(Node))
 			nm := nxt.name
-			if nm == callee{
+			if nm == callee {
 				return true
-			} else if !Existby(visited, nm, false){
+			} else if !Existby(visited, nm, false) {
 				if Search(l, visited, nm, callee) {
 					return true
 				} else {
@@ -134,7 +133,7 @@ func main() {
 	caller, callee = Map(l_, caller, callee)
 
 	// Keep a list of visited calls to avoid cycles
-	visited := list.New()	
+	visited := list.New()
 
 	if Existby(l_, caller, true) && Existby(l_, callee, true) {
 		// TODO use l_ to map caller/callee to actual names
