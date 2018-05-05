@@ -77,26 +77,38 @@ func Parse(file string) (*list.List, *list.List) {
 	return l, l_
 }
 
-func Exist(l *list.List, call string) bool {
+// Identical to list.find (by id or name)
+func Existby(l *list.List, call string, id_name bool) bool {
 
-	for e := l.Front(); e != nil; e = e.Next() {
-		if e.Value.(Node_).id == call {
-			return true
+	if id_name {
+		for e := l.Front(); e != nil; e = e.Next() {
+			if e.Value.(Node_).id == call {
+				return true
+			}
 		}
+		return false
+	}else {
+		for e := l.Front(); e != nil; e = e.Next() {
+			if e.Value.(Node).name == call {
+				return true
+			}
+		}
+		return false
 	}
-	return false
 }
 
-func Search(l *list.List, caller string, callee string) bool {
+
+func Search(l *list.List, visited *list.List, caller string, callee string) bool {
 
 	for e := l.Front(); e != nil; e = e.Next() {
 		if e.Value.(Node).name == caller {
 			nxt := e.Value.(Node).next
+			visited.PushBack(e.Value.(Node))
 			nm := nxt.name
-			if nm == callee {
+			if nm == callee{
 				return true
-			} else {
-				if Search(l, nm, callee) {
+			} else if !Existby(visited, nm, false){
+				if Search(l, visited, nm, callee) {
 					return true
 				} else {
 					continue
@@ -121,9 +133,12 @@ func main() {
 	// Map names to ids
 	caller, callee = Map(l_, caller, callee)
 
-	if Exist(l_, caller) && Exist(l_, callee) {
+	// Keep a list of visited calls to avoid cycles
+	visited := list.New()	
+
+	if Existby(l_, caller, true) && Existby(l_, callee, true) {
 		// TODO use l_ to map caller/callee to actual names
-		fmt.Println(Search(l, caller, callee))
+		fmt.Println(Search(l, visited, caller, callee))
 	} else {
 		fmt.Println("Please check: Callee/Caller or both dosn't exist!")
 	}
