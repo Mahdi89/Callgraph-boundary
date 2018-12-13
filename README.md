@@ -1,9 +1,10 @@
 
 [![Build Status](https://travis-ci.com/Mahdi89/llvm-project.svg?token=rd4e8mg2pKKfWux9Y4Jn&branch=master)](https://travis-ci.com/Mahdi89/llvm-project)
 
-# llvm-project
+# Callgraph boundary
 
-Provides the maybe-can-call tool. It checks whether there is a path between the requested functions in a `C` file.
+A tool to analyze the call graph in `C` and determine the paths between the function calls.
+It is useful for understanding complex projects.
 
 ## Requirements
 
